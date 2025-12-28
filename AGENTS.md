@@ -346,3 +346,35 @@ my_func = |arg|
 ```
 
 **Failure to follow these rules will result in parse errors and non-working code.**
+
+### 5. Use Interpreter Only - Native Compilation Not Working
+**WARNING**: The native Roc compiler (`roc build`) is **NOT functional** in this environment.
+- Attempting to use it will likely fail or produce unusable binaries
+- The **interpreter** (`roc dev` or `rocn`) is our **only working tool**
+- Execution will be slower (10+ seconds) but that's expected and unavoidable
+- Do not attempt to configure or fix the compiler
+
+**What this means:**
+- **Can't do**: `roc build app/main.roc` ❌
+- **Should do**: `roc dev app/main.roc` ✅ or `rocn app/main.roc` ✅
+- All testing must happen through the interpreter
+
+### 6. No Git Operations Without Explicit Direction
+**CRITICAL**: Do not perform ANY git operations unless specifically asked by the user.
+- NO `git commit`
+- NO `git push`
+- NO `git reset`
+- NO `git clean` unless instructed
+- NO `git add` unless instructed
+- NO modifying `.gitignore`
+
+**Exception**: If you accidentally created temporary files, you may clean them up IF they are:
+- In the current working directory
+- Not tracked by git
+- Clearly temporary test files you created
+
+**Always ask for confirmation** before any git mutation: "I need to [commit/push/reset]. Should I proceed?"
+
+---
+
+**REMINDER**: These rules exist to prevent the issues we've encountered. When in doubt, **ask** before acting.
