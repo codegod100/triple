@@ -1,2 +1,6 @@
 .zig-cache/
 zig-out/
+# Build artifacts
+main
+main.wasm
+*.patch
