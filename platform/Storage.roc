@@ -1,9 +1,9 @@
 Storage := [].{
-    save! : Str, Str => Result({}, Str)
+    save! : Str, Str => Try({}, Str)
 
-    load! : Str => Result(Str, [NotFound, PermissionDenied, Other(Str)])
+    load! : Str => Try(Str, [NotFound, PermissionDenied, Other(Str)])
 
-    delete! : Str => Result({}, Str)
+    delete! : Str => Try({}, Str)
 
     exists! : Str => Bool
 

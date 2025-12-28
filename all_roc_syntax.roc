@@ -1,4 +1,4 @@
-app [main!] { pf: platform "../platform/main.roc" }
+app [main!] { pf: platform "./platform/main.roc" }
 
 import pf.Stdout
 import pf.Stdout as StdoutAlias
@@ -99,15 +99,14 @@ effect_demo! : Str => {}
 effect_demo! = |msg|
 	Stdout.line!(msg)
 
-# TODO issue #8646
-# question_postfix : List(Str) -> Try(I64, _)
-# question_postfix = |strings| {
-#     # `?` to immediately return the error if there is one
-#     first_str = strings.first()?
-#     first_num = I64.from_str(first_str)?
+question_postfix : List(Str) -> Try(I64, _)
+question_postfix = |strings| {
+     # `?` to immediately return the error if there is one
+    first_str = strings.first()?
+    first_num = I64.from_str(first_str)?
 
-#     Ok(first_num + 1)
-# }
+    Ok(first_num + 1)
+}
 
 # three dots for things you want to fill in later, will crash if implement_me_later(arg) is called
 implement_me_later = |_str| ...
@@ -134,7 +133,7 @@ dbg_keyword = || {
 	# dbg foo
 
 	# This variation does not work yet:
-	# bar = dbg 43
+	 #bar = dbg 43
 
 	foo
 }
@@ -144,13 +143,13 @@ if_demo = |num| {
 	# every if must have an else branch!
 	one_line_if = if num == 1 "One" else "NotOne"
 
-	two_line_if = 
+	two_line_if =
 		if num == 2
 			"Two"
 		else
 			"NotTwo"
 
-	with_curlies = 
+	with_curlies =
 	    if num == 5 {
 	        "Five"
 	    } else {
@@ -166,7 +165,7 @@ if_demo = |num| {
 		one_line_if.concat(two_line_if).concat(with_curlies)
 }
 
-tuple_demo = 
+tuple_demo =
 # tuples can contain multiple types
 	("Roc", 1)
 
@@ -229,7 +228,7 @@ Animal := [Dog(Str), Cat(Str)].{
 }
 
 early_return = |arg| {
-	first = 
+	first =
 		if !arg {
 			return 99
 		} else {
