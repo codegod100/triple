@@ -67,39 +67,7 @@ fn rocCrashedFn(roc_crashed: *const RocCrashed, env: *anyopaque) callconv(.c) no
 // Hosted functions
 var seed_state: u64 = 1;
 
-fn hostedRandomSeedU64(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
-    _ = ops;
-    _ = args_ptr;
-    seed_state = (1103515245 * seed_state + 12345) % 2147483648;
-    const result: *u64 = @ptrCast(@alignCast(ret_ptr));
-    result.* = seed_state;
-}
-
-fn hostedStderrLine(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
-    _ = ops;
-    _ = ret_ptr;
-    const Args = extern struct { str: RocStr };
-    const args: *Args = @ptrCast(@alignCast(args_ptr));
-    const message = args.str.asSlice();
-    std.debug.print("{s}\n", .{message});
-}
-
-fn hostedStdinLine(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
-    _ = ops;
-    _ = args_ptr;
-    const result: *RocStr = @ptrCast(@alignCast(ret_ptr));
-    result.* = RocStr.empty();
-}
-
-fn hostedStdoutLine(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
-    _ = ops;
-    _ = ret_ptr;
-    const Args = extern struct { str: RocStr };
-    const args: *Args = @ptrCast(@alignCast(args_ptr));
-    const message = args.str.asSlice();
-    std.debug.print("{s}\n", .{message});
-}
-
+// Http.get (index 0)
 fn hostedHttpGet(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
     _ = ops;
     _ = args_ptr;
@@ -109,12 +77,155 @@ fn hostedHttpGet(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callco
     result.* = RocStr.empty();
 }
 
+// Logger.debug (index 1)
+fn hostedLoggerDebug(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = ret_ptr;
+    const Args = extern struct { str: RocStr };
+    const args: *Args = @ptrCast(@alignCast(args_ptr));
+    const message = args.str.asSlice();
+    std.debug.print("[DEBUG] {s}\n", .{message});
+}
+
+// Logger.error (index 2)
+fn hostedLoggerError(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = ret_ptr;
+    const Args = extern struct { str: RocStr };
+    const args: *Args = @ptrCast(@alignCast(args_ptr));
+    const message = args.str.asSlice();
+    std.debug.print("[ERROR] {s}\n", .{message});
+}
+
+// Logger.info (index 3)
+fn hostedLoggerInfo(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = ret_ptr;
+    const Args = extern struct { str: RocStr };
+    const args: *Args = @ptrCast(@alignCast(args_ptr));
+    const message = args.str.asSlice();
+    std.debug.print("[INFO] {s}\n", .{message});
+}
+
+// Logger.log (index 4)
+fn hostedLoggerLog(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = ret_ptr;
+    const Args = extern struct { str: RocStr };
+    const args: *Args = @ptrCast(@alignCast(args_ptr));
+    const message = args.str.asSlice();
+    std.debug.print("[LOG] {s}\n", .{message});
+}
+
+// Logger.warn (index 5)
+fn hostedLoggerWarn(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = ret_ptr;
+    const Args = extern struct { str: RocStr };
+    const args: *Args = @ptrCast(@alignCast(args_ptr));
+    const message = args.str.asSlice();
+    std.debug.print("[WARN] {s}\n", .{message});
+}
+
+// Random.seed_u64 (index 6)
+fn hostedRandomSeedU64(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = args_ptr;
+    seed_state = (1103515245 * seed_state + 12345) % 2147483648;
+    const result: *u64 = @ptrCast(@alignCast(ret_ptr));
+    result.* = seed_state;
+}
+
+// Stderr.line (index 7)
+fn hostedStderrLine(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = ret_ptr;
+    const Args = extern struct { str: RocStr };
+    const args: *Args = @ptrCast(@alignCast(args_ptr));
+    const message = args.str.asSlice();
+    std.debug.print("{s}\n", .{message});
+}
+
+// Stdin.line (index 8)
+fn hostedStdinLine(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = args_ptr;
+    const result: *RocStr = @ptrCast(@alignCast(ret_ptr));
+    result.* = RocStr.empty();
+}
+
+// Stdout.line (index 9)
+fn hostedStdoutLine(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = ret_ptr;
+    const Args = extern struct { str: RocStr };
+    const args: *Args = @ptrCast(@alignCast(args_ptr));
+    const message = args.str.asSlice();
+    std.debug.print("{s}\n", .{message});
+}
+
+// Storage.delete (index 10)
+fn hostedStorageDelete(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = args_ptr;
+    // Storage not available in WASI - return error
+    // Return Try type: Ok({}) or Err(Str)
+    // For now, return Ok({}) as a stub
+    _ = ret_ptr;
+}
+
+// Storage.exists (index 11)
+fn hostedStorageExists(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = args_ptr;
+    // Storage not available in WASI - return false
+    const result: *bool = @ptrCast(@alignCast(ret_ptr));
+    result.* = false;
+}
+
+// Storage.list (index 12)
+fn hostedStorageList(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = args_ptr;
+    // Storage not available in WASI - return empty list
+    const result: *RocList = @ptrCast(@alignCast(ret_ptr));
+    result.* = RocList.empty();
+}
+
+// Storage.load (index 13)
+fn hostedStorageLoad(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = args_ptr;
+    // Storage not available in WASI - return error
+    // For now, return empty string (stub)
+    const result: *RocStr = @ptrCast(@alignCast(ret_ptr));
+    result.* = RocStr.empty();
+}
+
+// Storage.save (index 14)
+fn hostedStorageSave(ops: *RocOps, ret_ptr: *anyopaque, args_ptr: *anyopaque) callconv(.c) void {
+    _ = ops;
+    _ = args_ptr;
+    // Storage not available in WASI - return Ok({}) as stub
+    _ = ret_ptr;
+}
+
 const hosted_function_ptrs = [_]builtins.host_abi.HostedFn{
-    hostedHttpGet, // Http.get! (index 0)
-    hostedRandomSeedU64, // Random.seed_u64! (index 1)
-    hostedStderrLine, // Stderr.line! (index 2)
-    hostedStdinLine, // Stdin.line! (index 3)
-    hostedStdoutLine, // Stdout.line! (index 4)
+    hostedHttpGet, // Http.get (index 0)
+    hostedLoggerDebug, // Logger.debug (index 1)
+    hostedLoggerError, // Logger.error (index 2)
+    hostedLoggerInfo, // Logger.info (index 3)
+    hostedLoggerLog, // Logger.log (index 4)
+    hostedLoggerWarn, // Logger.warn (index 5)
+    hostedRandomSeedU64, // Random.seed_u64 (index 6)
+    hostedStderrLine, // Stderr.line (index 7)
+    hostedStdinLine, // Stdin.line (index 8)
+    hostedStdoutLine, // Stdout.line (index 9)
+    hostedStorageDelete, // Storage.delete (index 10)
+    hostedStorageExists, // Storage.exists (index 11)
+    hostedStorageList, // Storage.list (index 12)
+    hostedStorageLoad, // Storage.load (index 13)
+    hostedStorageSave, // Storage.save (index 14)
 };
 
 extern fn roc__main_for_host(ops: *RocOps, ret_ptr: *anyopaque, arg_ptr: ?*anyopaque) callconv(.c) void;
